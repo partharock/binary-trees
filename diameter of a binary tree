@@ -1,0 +1,13 @@
+ int findmaxdia(Node* root, int &maxxer){
+         if(!root) return 0;
+         int left=findmaxdia(root->left,maxxer);
+         int right=findmaxdia(root->right,maxxer);
+        maxxer=max(maxxer,1+left+right );
+        return 1+max(left,right);
+    }
+    // Function to return the diameter of a Binary Tree.
+    int diameter(Node* root) {
+       int maxxer=INT_MIN;
+       findmaxdia(root,maxxer);
+       return maxxer;
+    }
