@@ -1,0 +1,53 @@
+#method 1
+vector<int> inOrder(Node* root)
+    {
+        stack<Node*> st;
+        vector<int> ans;
+        if(root==NULL)
+        return ans;
+        Node*temp=root;
+        while(!st.empty() or temp!=NULL){
+            if(temp!=NULL)
+            {
+                st.push(temp);
+                temp=temp->left;
+            }
+            else
+            {
+                temp=st.top();
+                // cout<<temp->data<<" ";
+                ans.push_back(temp->data);
+                st.pop();
+                temp=temp->right;
+            }
+        
+        }
+        return ans;
+    }
+    
+    # method 2
+    vector<int> inOrder(Node* root)
+    {
+        vector<int> answer;
+        if(!root) return answer;
+        stack<Node*> st;
+        st.push(root);
+        unordered_map<Node*,int> umap;
+        Node*temp=root;     
+        while(!st.empty())
+        {
+            auto temp1=st.top();
+            // st.pop();
+            while(temp1->left and !umap[temp1->left]){
+                temp1=temp1->left;
+                st.push(temp1);
+            }
+            answer.emplace_back(temp1->data);
+            umap[temp1]=true;
+            st.pop();
+            if(temp1->right and !umap[temp1->right])
+            st.push(temp1->right);
+        }
+        return answer;
+        //code here
+    }
