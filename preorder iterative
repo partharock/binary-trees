@@ -1,0 +1,16 @@
+ vector<int> preOrder(Node* root)
+    {
+        vector<int> answer;
+        stack<Node*> st;
+        st.push(root);
+        while(!st.empty()){
+          auto temp=st.top();
+          st.pop();
+          answer.emplace_back(temp->data);
+          if(temp->right)
+          st.push(temp->right);
+          if(temp->left)
+          st.push(temp->left);
+        }
+        return answer;
+    }
