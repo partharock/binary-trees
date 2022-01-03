@@ -1,0 +1,76 @@
+method 1
+ vector<int> postOrder(Node* node) {
+        // code here
+        
+        stack<Node*> st;
+        st.push(node);
+        vector<int> answer;
+        if(!node) return answer;
+        Node* temp;
+        while(!st.empty() ){
+            auto temp=st.top();
+            st.pop();
+            answer.emplace_back(temp->data);
+            if(temp->left)
+            st.push(temp->left);
+            if(temp->right)
+            st.push(temp->right);
+        }
+        reverse(answer.begin(),answer.end());
+        return answer;
+    }
+    method 2
+     vector<int> postOrder(Node* node) {
+        // code here
+        vector<int> ans;
+        if(node==NULL)
+        return ans;
+        stack<Node*> st1;
+        st1.push(node);
+        stack<Node*> st2;
+        // Node*temp=node;
+        while(!st1.empty()){
+            Node*temp=st1.top();
+            st2.push(temp);
+            st1.pop();
+            if(temp->left!=NULL)
+            st1.push(temp->left);
+            if(temp->right!=NULL)
+            st1.push(temp->right);
+        }
+        while(!st2.empty())
+        { ans.emplace_back(st2.top()->data);
+          st2.pop();
+        }
+       return ans;
+    }
+    method 3
+     vector<int> postOrder(Node* node) {
+        vector<int> ans;
+        if(node==NULL) return ans;
+        stack<Node*> st;
+        Node*temp=node;     Node*curr;
+        while(!st.empty() or temp!=NULL )
+        {
+            if(temp!=NULL)
+            {
+                st.push(temp);  temp=temp->left;
+            }
+            else
+            {
+                curr=st.top()->right;
+                if(curr==NULL){
+                    curr=st.top();  ans.emplace_back(curr->data);
+                    st.pop();
+                    while( !st.empty() and  st.top()->right==curr ){
+                        curr=st.top(); st.pop();
+                        ans.emplace_back(curr->data);
+                    }
+                    
+                }
+                else
+                temp=curr;
+            }
+        }
+        return ans;
+    }
