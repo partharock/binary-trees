@@ -1,0 +1,49 @@
+using unordered map in on time
+   vector <int> bottomView(Node *root) {
+        
+        vector<int> ans;
+        if(!root) return ans;
+        queue< pair<Node*,int> > q;
+        q.push({root,0});
+        unordered_map<int,int> umap;
+        int minleft=0;
+        Node*temp;
+        int d;
+        while(!q.empty()){
+             temp=q.front().first;
+             d=q.front().second;
+             minleft=min(minleft,d);
+             q.pop();
+             umap[d]=temp->data;
+             if(temp->left) q.push({temp->left,d-1});
+             if(temp->right) q.push({temp->right,d+1});
+        }
+        ans=vector<int>(umap.size());
+        for(auto j:umap){
+            
+            ans[j.first-minleft]=j.second;
+        }
+        return ans;
+    }
+    using ordered map onlogn time
+     vector <int> bottomView(Node *root) {
+        
+        vector<int> ans;
+        if(!root) return ans;
+        queue< pair<Node*,int> > q;
+        q.push({root,0});
+        map<int,int> umap;
+        Node*temp;
+        int d;
+        while(!q.empty()){
+             temp=q.front().first;
+             d=q.front().second;
+             q.pop();
+             umap[d]=temp->data;
+             if(temp->left) q.push({temp->left,d-1});
+             if(temp->right) q.push({temp->right,d+1});
+        }
+        for(auto j:umap)
+           ans.emplace_back(j.second);
+        return ans;
+    }
