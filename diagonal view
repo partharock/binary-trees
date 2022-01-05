@@ -1,3 +1,24 @@
+optimum soltuion 
+vector<int> diagonal(Node *root)
+{
+    vector<int> ans;
+    queue<Node*> q;
+    Node*temp;
+    q.push(root);
+    while(!q.empty()){
+        temp=q.front();
+        q.pop();
+        while(temp!=NULL)
+        {
+            if(temp->left)
+            q.push(temp->left);
+            ans.emplace_back(temp->data);
+            temp=temp->right;
+        }
+    }
+    return ans;
+   // your code here
+}
 using level order traversal doesnr un on geeks for geeks all test cases as they keep seperate branch node at last 
 vector<int> diagonal(Node *root)
 {
@@ -77,3 +98,4 @@ vector<int> diagonal(Node *root)
     
     return answer;
 }
+
