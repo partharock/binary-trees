@@ -1,0 +1,22 @@
+int heightmaker(Node* root, bool &flag)
+    {   
+      if(flag==false) return 0; 
+        if(!root) return -1;
+    
+        int lefter = 1 + heightmaker(root->left,flag);
+        int righter= 1 + heightmaker(root->right,flag);
+        
+        if( abs(righter-lefter)>=2 ) {
+            
+            flag=false;
+        }
+        return max(lefter,righter);
+    }
+    //Function to check whether a binary tree is balanced or not.
+    bool isBalanced(Node *root)
+    {   
+        bool flag=true;
+       heightmaker(root,flag);
+       
+       return flag;
+    }
