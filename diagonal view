@@ -1,0 +1,79 @@
+using level order traversal doesnr un on geeks for geeks all test cases as they keep seperate branch node at last 
+vector<int> diagonal(Node *root)
+{
+    int depth=0;
+    finddepth(root,0,depth);
+    queue< pair< Node*,pair<int,int> > > q;
+    q.push({root,{0,0} }  );
+    Node*temp;
+    int x;
+    int y;
+    vector<vector<int> > ans(depth+1);
+    while(!q.empty())
+    {
+        temp=q.front().first;
+        x=q.front().second.first;
+        y=q.front().second.second;
+        q.pop();
+        
+       ans[(y-x)/2].push_back(temp->data);
+   
+        if(temp->left)
+        q.push(  {temp->left,{x-1,y+1} }    );
+        
+        if(temp->right)
+        q.push(  { temp->right,{x+1,y+1} }  );
+        
+    }
+    
+    vector<int> answer;
+    // for(auto k:ans)
+    // {
+    //     for(auto j:k)
+    //     answer.push_back(j);
+    // }
+    for(int j=0;j<=depth;j++)
+    {
+        for(int k:ans[j])
+        answer.emplace_back(k);
+    }
+    
+    return answer;
+   // your code here
+}
+
+
+geeks for geeks using recursion pass all
+void finddepth(Node* root,int level,int &depth){
+    if(!root) return;
+    depth=max(depth,level);
+    finddepth(root->left,level+1,depth);
+    finddepth(root->right,level+1,depth);
+}
+void diagonaliser(Node* root,vector<vector<int> > &ans,int x,int y){
+    if(!root) return ;
+    ans[ (y-x)/2 ].push_back(root->data);
+    diagonaliser(root->left,ans,x-1,y+1);
+    diagonaliser(root->right,ans,x+1,y+1);
+}
+vector<int> diagonal(Node *root)
+{
+    int depth=0;
+    finddepth(root,0,depth);
+    Node*temp;
+    int x;
+    int y;
+    vector<vector<int> > ans(depth+1);
+    
+    diagonaliser(root,ans,0,0);
+
+    vector<int> answer;
+
+    for(int j=0;j<=depth;j++)
+    {
+        for(int k:ans[j])
+        answer.emplace_back(k);
+    }
+    
+    return answer;
+}
