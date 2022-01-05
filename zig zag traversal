@@ -1,0 +1,89 @@
+simple in on time using o2n space
+vector <int> zigZagTraversal(Node* root)
+{
+    vector <int> res;
+    
+    //if root is null, we return the list.
+	if (!root)return res;
+	
+	//declaring two stacks to store the current and new level.
+	stack<struct Node*> currentlevel;
+	stack<struct Node*> nextlevel;
+	
+	//pushing the root in currentlevel stack.
+	currentlevel.push(root);
+	bool lefttoright = true;
+	
+	while (!currentlevel.empty())
+	{
+	    //storing the top element of currentlevel stack in temp and popping it.
+		Node* temp = currentlevel.top();
+		currentlevel.pop();
+		
+		//if temp is not null, we store the data at temp in list.
+		if (temp) 
+		{
+			res.push_back (temp->data);
+			
+			//if lefttoright is true then it stores nodes from left to right 
+			//else from right to left in nextlevel stack.
+			if (lefttoright)
+			{
+				if (temp->left)
+					nextlevel.push(temp->left);
+				if (temp->right)
+					nextlevel.push(temp->right);
+			}
+			else 
+			{
+				if (temp->right)
+					nextlevel.push(temp->right);
+				if (temp->left)
+					nextlevel.push(temp->left);
+			}
+		}
+		
+		//if currentlevel stack is empty lefttoright is flipped to change 
+		//the order of storing the nodes and both stacks are swapped.
+		if (currentlevel.empty()) 
+		{
+			lefttoright = !lefttoright;
+			swap(currentlevel, nextlevel);
+		}
+	}
+	//returning the list.
+	return res;
+}
+
+
+
+simple using reverse o2n time on space
+vector <int> zigZagTraversal(Node* root)
+    {
+        queue<Node*> q;
+        q.push(root);
+        Node* temp;
+        bool flag=false;
+        vector<int> ans;
+        while(!q.empty())
+        {
+            int k=q.size();
+            vector<int> stub;
+            for(int i=0;i<k;i++){
+                temp=q.front();
+                q.pop();
+                stub.emplace_back(temp->data);
+                if(temp->left)  q.push(temp->left);
+                if(temp->right) q.push(temp->right);
+            }
+            if(flag)
+                reverse(stub.begin(),stub.end());
+            
+            for(int j=0;j<k;j++)
+            ans.emplace_back(stub[j]);
+            
+            flag=!flag;
+        }
+        return ans;
+    	// Code here
+    }
