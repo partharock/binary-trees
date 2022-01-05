@@ -1,0 +1,62 @@
+using unordered map 
+o( 2n ) time and o(3n) space - vector ans and unordered map and queue
+
+  vector<int> topView(Node *root)
+    {
+        queue< pair<Node*,int> > q;
+        q.push( {root,0});
+        Node*temp;
+        int d,minleft=0;
+        unordered_map<int,int> umap;
+        while(!q.empty()){
+            int k=q.size();
+            for(int i=0;i<k;i++){
+                temp=q.front().first;
+                // cout<<temp->data<<endl;
+                d=q.front().second;
+                minleft=min(minleft,d);
+                q.pop();
+                if(umap[d]==0)
+                umap[d]=temp->data;
+                 if(temp->left)
+                q.push({temp->left,d-1});
+                 if(temp->right)
+                q.push({temp->right,d+1});
+             }   
+            }
+                vector<int> ans(umap.size());
+                for(auto j:umap)
+                ans[j.first-minleft]=j.second;
+        
+                return ans;
+        //Your code here
+    }
+    
+    usinng map
+    o(nlogn) time and o(2n)
+     vector<int> topView(Node *root)
+    {
+        queue< pair<Node*,int> > q;
+        q.push( {root,0});
+        Node*temp;
+        int d;
+        map<int,int> umap;
+        while(!q.empty()){
+            int k=q.size();
+            for(int i=0;i<k;i++){
+                temp=q.front().first;
+                d=q.front().second;
+                q.pop();
+                if(umap[d]==0)
+                umap[d]=temp->data;
+                 if(temp->left)
+                q.push({temp->left,d-1});
+                 if(temp->right)
+                q.push({temp->right,d+1});
+             }   
+            }
+                vector<int> ans;
+                for(auto j:umap)
+                ans.emplace_back(j.second);
+        
+                return ans;
