@@ -1,0 +1,38 @@
+void  leftnodemaker(Node*root , vector<int> &ans){
+        if(!root) return ;
+        if(root->left!=NULL){
+        ans.push_back(root->data);
+        leftnodemaker(root->left,ans);
+        }
+        else if (root->right!=NULL)
+        {
+        ans.push_back(root->data);
+        leftnodemaker(root->right,ans);
+        }
+    }
+    void leafnode(Node*root,vector<int> &ans){
+        if(!root) return ;
+        if(!root->left and !root->right)ans.push_back(root->data);
+        leafnode(root->left,ans);
+        leafnode(root->right,ans);
+    }
+    void  rightnodemaker(Node*root , vector<int> &ans){
+        if(!root) return ;
+        if(root->right!=NULL){
+        rightnodemaker(root->right,ans);
+        ans.push_back(root->data);
+        }
+        else if(root->left!=NULL){
+             rightnodemaker(root->left,ans);
+        ans.push_back(root->data);
+        }
+    }
+    vector <int> boundary(Node *root)
+    {
+        vector<int>  ans;
+        ans.push_back(root->data);
+        leftnodemaker(root->left,ans);
+        leafnode(root,ans);
+        rightnodemaker(root->right,ans);
+        return ans;
+    }
