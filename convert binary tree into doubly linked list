@@ -1,0 +1,74 @@
+using no extra space best method
+  Node * bToDLL(Node *root)
+    {
+        if(!root) return NULL;
+        Node*lefter=bToDLL(root->left);
+        Node*righter=bToDLL(root->right);
+        if(!lefter and !righter) return root;
+        if(lefter and righter)
+        {
+            Node*temp=lefter;
+            while(temp->right!=NULL)
+            temp=temp->right;
+                
+            temp->right=root;
+            root->left=temp;
+            root->right=righter;
+            righter->left=root;
+            
+            return lefter;
+        }
+        else if(!lefter and righter)
+        {
+            righter->left=root;
+            root->right=righter;
+            return root;
+        }
+        else if(!righter and lefter)
+        {
+            Node*temp=lefter;
+            while(temp->right!=NULL)
+            temp=temp->right;
+            temp->right=root;
+            root->left=temp;
+            return lefter;
+        }
+        // your code here
+    }
+    
+    using extra on space easy method 
+    void inorder(Node* root,vector<int> &ans)
+    {
+        if(root!=NULL){
+          inorder(root->left,ans);
+        ans.push_back(root->data);
+        inorder(root->right,ans); 
+        }
+        
+    }
+    //Function to convert binary tree to doubly linked list and return it.
+    Node * bToDLL(Node *root)
+    {
+        vector<int> ans;
+        inorder(root,ans);
+        
+        int k=ans.size();
+        Node*head=NULL;
+        Node*temp=NULL;
+        for(int i=0;i<k;i++){
+            if(head==NULL){
+                head=newNode(ans[i]);
+                temp=head;
+            }
+            else
+            {
+                Node*step=newNode(ans[i]);
+              temp->right=step;
+              step->left=temp;
+                temp=temp->right;
+            }
+            
+        }
+        return head;
+        // your code here
+    }
