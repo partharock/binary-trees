@@ -1,0 +1,47 @@
+using reverse of postorder on and then traverse
+  unordered_map<int,int> umap;
+    int hashmapgenerate(int in[],int n)
+    {
+       for(int i=0;i<n;i++)
+       {
+           umap[in[i]]=i;
+       }
+    }
+    Node* build(int startpre,int endpre,int startin,int endin,int in[],int pre[]){
+        if(startpre>endpre or startin>endin)
+        return NULL;
+        
+        Node* head=new Node(pre[startpre]);
+        int temp= umap[pre[startpre]];
+        head->left=build(startpre+1,startpre +(temp-startin),startin,temp-1,in,pre);
+        head->right=build(startpre+(temp-startin)+1,endpre,temp+1,endin,in,pre);
+        return head;
+        
+    }
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        umap.clear();
+        hashmapgenerate(in,n);
+        
+        return build(0,n-1,0,n-1,in,pre);
+    }
+    
+    without reverse
+    unordered_map<int,int> umap;
+Node* buildtree(int startin,int endin,int in[],int startpost,int endpost,int post[])
+{
+   if(startin>endin or startpost>endpost) return NULL;
+   Node*head = new Node(post[endpost]);
+   int temp=umap[post[endpost]];
+   head->right= buildtree(temp+1,endin,in,endpost-(endin-temp),endpost-1,post);
+   head->left=buildtree(startin,temp-1,in,startpost,endpost-(endin-temp)-1,post);
+   return head;
+}
+//Function to return a tree created from postorder and inoreder traversals.
+Node *buildTree(int in[], int post[], int n) {
+    // Your code here
+    umap.clear();
+    for(int i=0;i<n;i++)
+    umap[in[i]]=i;
+    return buildtree(0,n-1,in,0,n-1,post);
+}
