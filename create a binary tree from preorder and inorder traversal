@@ -1,0 +1,50 @@
+using search function with on extra time and no extra on space 
+int searchnumber(int x,int in[],int startin,int endin )
+    {
+        for(int i=startin;i<=endin;i++)
+        if(x==in[i])
+        return i;
+    }
+    Node* build(int startpre,int endpre,int startin,int endin,int in[],int pre[]){
+        if(startpre>endpre or startin>endin)
+        return NULL;
+        
+        Node* head=new Node(pre[startpre]);
+        int temp= searchnumber(pre[startpre],in,startin,endin);
+        head->left=build(startpre+1,startpre +(temp-startin),startin,temp-1,in,pre);
+        head->right=build(startpre+(temp-startin)+1,endpre,temp+1,endin,in,pre);
+        return head;
+        
+    }
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        return build(0,n-1,0,n-1,in,pre);
+    }
+    
+    using hashmap reducing time complexity and increase space to on
+      unordered_map<int,int> umap;
+    int hashmapgenerate(int in[],int n)
+    {
+       for(int i=0;i<n;i++)
+       {
+           umap[in[i]]=i;
+       }
+    }
+    Node* build(int startpre,int endpre,int startin,int endin,int in[],int pre[]){
+        if(startpre>endpre or startin>endin)
+        return NULL;
+        
+        Node* head=new Node(pre[startpre]);
+        int temp= umap[pre[startpre]];
+        head->left=build(startpre+1,startpre +(temp-startin),startin,temp-1,in,pre);
+        head->right=build(startpre+(temp-startin)+1,endpre,temp+1,endin,in,pre);
+        return head;
+        
+    }
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        umap.clear();
+        hashmapgenerate(in,n);
+        
+        return build(0,n-1,0,n-1,in,pre);
+    }
