@@ -1,0 +1,23 @@
+easy unordered map solution fastest
+unordered_map<string,int> umap;
+    string func(Node*root)
+    {
+        if(!root) return "*";
+        string lefter=func(root->left);
+        string righter=func(root->right);
+        string temp=root->data+lefter+righter;
+        if(temp.size()>3)
+        umap[temp]++;
+        return temp;
+    }
+    int dupSub(Node *root) {
+         // code here
+         umap.clear();
+         func(root);
+         for(auto j:umap)
+         {
+             if(j.second>1)
+             return 1;
+         }
+         return 0;
+    }
