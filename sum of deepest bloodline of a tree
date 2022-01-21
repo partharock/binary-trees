@@ -1,0 +1,21 @@
+  void mover(Node* root, int &maxsum,int &maxdepth,int sum,int depth)
+    {
+        if(!root) return ;
+        
+        sum=sum+root->data;
+        if(depth>=maxdepth)
+        {
+            maxdepth=depth;
+            maxsum=max(maxsum,sum);
+        }
+        mover(root->left,maxsum,maxdepth,sum,depth+1);
+        mover(root->right,maxsum,maxdepth,sum,depth+1);
+    }
+    int sumOfLongRootToLeafPath(Node *root)
+    {
+        int maxsum=0;
+        int maxdepth=0;
+        mover(root,maxsum,maxdepth,0,0);
+        return maxsum;
+        //code here
+    }
