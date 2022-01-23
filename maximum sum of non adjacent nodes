@@ -1,0 +1,31 @@
+using dp 
+unordered_map<Node*,int> umap;
+  int helper(Node*root)
+  {
+       if(!root) return 0;
+        
+        if(umap[root]!=0)return umap[root];
+        // include case
+        int zeta =root->data;
+        int omega=0;
+        if(root->left){
+            omega+=helper(root->left);
+           zeta+=helper(root->left->left);
+           zeta+=helper(root->left->right);
+           
+        }
+        if(root->right){
+            omega+=helper(root->right);
+        zeta+=helper(root->right->left);
+        zeta+=helper(root->right->right);
+        
+        }
+        return umap[root]=max(zeta,omega);
+  }
+    //Function to return the maximum sum of non-adjacent nodes.
+    int getMaxSum(Node *root) 
+    {
+        umap.clear();
+        return helper(root);
+        // Add your code here
+    }
