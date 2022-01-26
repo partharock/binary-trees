@@ -1,0 +1,100 @@
+using lca method 
+Node* lcamaker(Node*root,int a,int b,int &l1,int &l2,int level,int &lcalevel)
+    {
+        if(!root) return NULL;
+        
+        if(root->data==a){
+            
+            l1=level;
+            return root;
+        }
+        if(root->data==b)
+        {
+            l2=level;
+            return root;
+        }
+        Node*lefter=lcamaker(root->left,a,b,l1,l2,level+1,lcalevel);
+        Node*righter=lcamaker(root->right,a,b,l1,l2,level+1,lcalevel);
+        
+        if(lefter and righter) {
+            lcalevel=level;
+            return root;
+            }
+        if(!lefter and !righter) return NULL;
+        if(lefter) return lefter;
+        else return righter;
+        
+    }
+    
+    int findlevel(Node*root,int level,int target)
+    {
+        if(!root) return 0;
+        if(root->data==target)
+        return level;
+        
+       int lefter= findlevel(root->left,level+1,target);
+       int righter= findlevel(root->right,level+1,target);
+       
+       if(!lefter and !righter) return 0;
+       if(lefter) return lefter;
+       return righter;
+    }
+    int findDist(Node* root, int a, int b) {
+        // Your code here
+        int l1=-1,l2=-1,lcalevel=-1;
+        Node* lca=lcamaker(root,a,b,l1,l2,0,lcalevel);
+        
+        if(l1!=-1 and l2!=-1)
+        {
+            return l1 + l2 - (2*lcalevel) ;
+        }
+        
+        if(l1==-1)
+        {
+            return findlevel(root,0,a)-l2;
+        }
+        
+        if(l2==-1)
+        {
+            return findlevel(root,0,b)-l1;
+        }
+        
+        return 0;
+    }
+    
+    
+    using vector for traversal
+    void path(vector<int> &temp,vector<int> stub,Node*root,int a)
+    {
+        if(!root) return;
+        
+        stub.emplace_back(root->data);
+        
+        if(root->data==a){
+            temp=stub;
+           return; 
+        }
+        
+        path(temp,stub,root->left,a);
+        path(temp,stub,root->right,a);
+        
+    }
+    int findDist(Node* root, int a, int b) {
+        // Your code here
+        vector<int> temp1,temp2;
+        vector<int> stub;
+        path(temp1,stub,root,a);
+        path(temp2,stub,root,b);
+        int size1=temp1.size();
+        int size2=temp2.size();
+        int start=0;
+        while(start<size1 and start<size2)
+        {
+            if(temp1[start]!=temp2[start])
+            break;
+            start++;
+        }
+        
+        return ( size1-start + size2-start);
+        
+    }
