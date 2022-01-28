@@ -1,0 +1,35 @@
+ int height=17;
+    int size;
+    vector< vector<int> > dp;
+    TreeAncestor(int n, vector<int>& parent) {
+        size=n;
+        dp=vector<vector<int> >(n,vector<int>(height));
+   
+        for(int k=0;k<n;k++)
+         dp[k][0]=parent[k]; // initialise for j=0 or 2^0 =1 parent level
+        
+        for(int i=1;i<height;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(dp[j][i-1]!=-1)
+                dp[j][i]=dp[ dp[j][i-1] ][i-1];
+                else
+                    dp[j][i]=-1;
+            }
+        }
+    }
+    int getKthAncestor(int node, int k) {
+        if(k>size) return -1;
+        if(node<=0) return -1;
+        int base=0;
+        while(k!=0 ){
+            if(1&k){
+                node=dp[node][base];
+                if(node==-1) return -1;
+            }
+            base++;
+            k=k>>1;
+        }
+        return node;
+    }
