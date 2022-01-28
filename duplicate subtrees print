@@ -1,0 +1,23 @@
+vector<Node*> ans;
+string inorder(Node* root,unordered_map<string,int> &umap){
+    if(!root) return "*";
+    string str="";
+    str+=inorder(root->left,umap);
+    str+=to_string(root->data);
+    str+=inorder(root->right,umap);
+    
+    if(umap[str]==1)
+    ans.push_back(root);
+    
+    umap[str]++;
+    
+    return str;
+}
+vector<Node*> printAllDups(Node* root)
+{
+    ans.clear();
+    unordered_map<string,int> umap;
+    inorder(root,umap);
+    return ans;
+    // Code here
+}
